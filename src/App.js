@@ -1,4 +1,6 @@
+import dayjs from "dayjs";
 import { useState } from "react";
+
 import "./App.css";
 import TenAward from "./assets/10Award.png";
 import LiefAward from "./assets/LiefAward.png";
@@ -9,6 +11,38 @@ import Modal from "./components/Modal";
 
 function App() {
   const [modelType, setModalType] = useState();
+
+  const hintsMap = [
+    {
+      date: dayjs("2024-11-05T16:00:00"), // Start date
+      hint: "We’re two-gether in this, but can you guess what’s *pair-ed* up next?",
+    },
+    {
+      date: dayjs("2024-11-06T16:00:00"), // Next day
+      hint: "I’ve got a *creation* with you in mind—something that celebrates the beauty of two.",
+    },
+    {
+      date: dayjs("2024-11-07T16:00:00"), // Another day
+      hint: "What’s the only thing better than us? A night *designed* just for two!",
+    },
+    {
+      date: dayjs("2024-11-08T16:00:00"), // Final hint
+      hint: "You’ll want to bring your favorite snack.",
+    },
+  ];
+
+  const getCurrentHint = () => {
+    const now = dayjs();
+    const currentHint = hintsMap.find((hintEntry) =>
+      now.isBefore(hintEntry.date)
+    );
+
+    if (currentHint) {
+      return currentHint.hint;
+    } else {
+      return "The surprise has been revealed!";
+    }
+  };
 
   return (
     <div className="bg-[#000000] grid grid-cols-2 p-4 pb-20 gap-3 h-full">
@@ -37,8 +71,8 @@ function App() {
         </div>
       </IosCard>
       <IosCard title="Hint">
-        <div className="flex justify-center h-52">
-          <div class="w-16 self-center h-16 border-4 border-dashed rounded-full animate-spin border-app-blue"></div>
+        <div className="flex justify-center content-center h-52 p-6 text-app-white text-center">
+          <p className="self-center">{getCurrentHint()}</p>
         </div>
       </IosCard>
 
