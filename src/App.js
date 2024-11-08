@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./App.css";
 import TenAward from "./assets/10Award.png";
+import Ten_Maande from "./assets/10Maande.png";
 import LiefAward from "./assets/LiefAward.png";
 import rings from "./assets/rings.png";
 import temp from "./assets/temp.jpg";
@@ -11,6 +12,23 @@ import Modal from "./components/Modal";
 
 function App() {
   const [modelType, setModalType] = useState();
+
+  const targetDate = dayjs("2024-11-08T19:00:00");
+  const maxBlur = 14; // Maximum blur in pixels
+
+  const calculateBlur = () => {
+    const now = dayjs();
+    const totalDuration = targetDate.diff(dayjs(), "seconds"); // Total seconds until target
+    const timeLeft = targetDate.diff(now, "seconds"); // Seconds left until target
+
+    // If target date has passed, return 0 (no blur)
+    if (timeLeft <= 0) return 0;
+
+    // Calculate blur amount based on time left
+    return Math.max((timeLeft / totalDuration) * maxBlur, 0);
+  };
+
+  const [blurAmount, setBlurAmount] = useState(calculateBlur);
 
   const hintsMap = [
     {
@@ -79,10 +97,10 @@ function App() {
       <IosCard title="Verrassing">
         <div className="flex justify-center h-52">
           <img
-            src={temp}
+            src={Ten_Maande}
             alt="temp"
             className="w-24 self-center"
-            style={{ filter: "blur(12px)" }}
+            style={{ filter: `blur(${blurAmount}px)` }}
           />
         </div>
       </IosCard>
