@@ -13,7 +13,7 @@ import Modal from "./components/Modal";
 function App() {
   const [modelType, setModalType] = useState();
 
-  const targetDate = dayjs("2024-11-08T18:30:00");
+  const targetDate = dayjs("2024-11-08T18:28:00");
   const maxBlur = 14; // Maximum blur in pixels
 
   const calculateBlur = () => {
